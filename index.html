@@ -55,7 +55,6 @@ waveIndex=waveLabels.indexOf(l.observed_wave_label);if(waveIndex<0)waveIndex=nul
 forecast=l.forecast||null;$("saveBtn").textContent="Update surf log";$("cancelEdit").style.display="inline-block";$("forecastStatus").textContent=l.historical_sources?"Historical readings are attached to this session. No actual conditions have been assumed.":"Editing existing session.";renderConditions();
 }
 $("cancelEdit").onclick=()=>{editingId=null;$("saveBtn").textContent="Save surf log";$("cancelEdit").style.display="none";show("history")};
-renderConditions();
 const $=id=>document.getElementById(id), input=id=>$(id).value,number=id=>input(id)===""?null:Number(input(id)), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const persist=()=>localStorage.setItem(key,JSON.stringify(state));
 const today=new Date();$("date").value=[today.getFullYear(),String(today.getMonth()+1).padStart(2,"0"),String(today.getDate()).padStart(2,"0")].join("-");
@@ -97,6 +96,7 @@ $("saveBtn").onclick=()=>{const s=state.spots[Number(input("spot"))],date=input(
 const record={...(existing||{}),id:editingId||Date.now().toString(36)+Math.random().toString(36).slice(2,6),spot:s.name,date,time,forecast:forecast&&forecast.spot===s.name&&forecast.session_date===date&&forecast.session_time===time?forecast:existing?.forecast||null,surfline:sl,observed_height:number("actualH"),observed_wave_label:waveIndex==null?null:waveLabels[waveIndex],wind_direction:windDirection,no_wind:noWind,wind_condition:windCondition,stars,tags:[...selectedTags],rating:number("rating"),quality:number("quality"),crowd:number("crowd"),notes:input("notes"),saved_at:new Date().toISOString()};
 if(existing)Object.assign(existing,record);else state.logs.push(record);editingId=null;$("saveBtn").textContent="Save surf log";$("cancelEdit").style.display="none";persist();render();$("saveStatus").textContent="Session saved in this browser. Export JSON to make a backup.";};
 $("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({...state,exported_at:new Date().toISOString()},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="double-vision-surf-log-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+renderConditions();
 render();
 })();
 </script></body></html>
