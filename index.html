@@ -3,6 +3,40 @@
 <style>
 :root{--sea:#10272d;--sea2:#183b42;--foam:#b9dfd0;--sand:#f3f0e8;--muted:#718480;--line:#d7ded9}
 *{box-sizing:border-box}body{margin:0;background:var(--sand);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#16282a}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:#176975}header{background:var(--sea);color:white;padding:20px max(20px,calc((100vw - 1100px)/2)) 70px}header .brand{letter-spacing:.12em;font-size:12px;color:var(--foam);font-weight:800}header .logo-card{background:white;width:min(290px,85vw);padding:5px 12px;border-radius:7px;box-shadow:7px 7px 0 #35616a;margin-bottom:20px}header .logo-card img{display:block;width:100%;height:auto}header h1{font-size:clamp(44px,8vw,92px);line-height:.93;letter-spacing:-.07em;margin:25px 0 14px;font-weight:900}header p{max-width:490px;color:#b3cbc9;font-size:16px;line-height:1.55}header .accent{color:var(--foam)}.ocean{height:145px;background:radial-gradient(ellipse at 23% 10%,#4b8891 0%,transparent 45%),linear-gradient(160deg,#285964,#10272d 72%);border-radius:17px;margin-top:30px;position:relative;overflow:hidden}.ocean:after{content:"";position:absolute;top:32%;left:-10%;width:120%;height:140px;border-top:10px solid #b5d6d1;border-radius:50%;transform:rotate(-10deg);opacity:.53}.shell{max-width:1100px;margin:-45px auto 65px;position:relative;padding:0 20px}.nav{display:flex;gap:7px;padding:9px;background:white;border-radius:15px;box-shadow:0 10px 38px #071e221a;overflow-x:auto}.nav button{border:0;background:transparent;padding:13px 17px;border-radius:10px;color:#4c6262;white-space:nowrap;font-size:13px;font-weight:700}.nav button.active{background:var(--sea);color:white}.page{display:none;padding-top:26px}.page.active{display:block}.title{font-size:28px;letter-spacing:-.04em;margin:0 0 6px}.subtitle{color:#687f7b;margin:0 0 25px;font-size:14px;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.two{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.card{background:white;border:1px solid #e0e5df;border-radius:15px;padding:20px;margin-bottom:15px}.stat{font-size:36px;font-weight:850;letter-spacing:-.055em;margin-top:6px}.eyebrow{font-size:11px;color:#738581;font-weight:800;text-transform:uppercase;letter-spacing:.12em}.card h3{margin:0 0 13px;font-size:17px}.primary{background:#163f45;color:white;border:0;border-radius:11px;padding:13px 18px;font-weight:750}.secondary{background:white;border:1px solid var(--line);color:#21454b;border-radius:11px;padding:12px 16px;font-weight:700}.small{padding:7px 10px;font-size:12px}.field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3d5657;font-weight:700;margin-bottom:14px}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd6d1;border-radius:9px;background:#fbfcfa;padding:11px;color:#163335;min-width:0}.field textarea{resize:vertical;min-height:90px}.wavepanel{background:#edf5f2;border:1px solid #c9e1d8;border-radius:13px;padding:15px;margin:12px 0 18px}.surferScale{height:150px;display:flex;justify-content:center}.surferScale svg{height:100%;width:180px}.wavepanel input[type=range]{accent-color:#167a81;width:100%;margin:10px 0}.compass{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;margin:10px 0}.compass button{background:#edf2f0;border:1px solid #d9e2dd;padding:11px 2px;border-radius:9px;font-size:11px;font-weight:800;color:#52736c}.compass button.selected,.chips button.selected,#noWind.selected{background:#173d43;color:white;border-color:#173d43}.chips button{border:1px solid #d4e2da;background:#ecf2ef;color:#3b625c;border-radius:8px;padding:9px 11px;font-size:12px;font-weight:700}.stars{display:flex;gap:5px;flex-wrap:wrap}.stars button{background:#e7eee9;border:0;border-radius:8px;padding:9px;color:#24494b;font-weight:800;font-size:14px}.stars button.selected{background:#16535b;color:#f6e6a2}.condition-section{padding:15px 0;border-top:1px solid #e1e7e3}.condition-section h4{margin:4px 0 9px}.notice{background:#eaf3f0;padding:14px 15px;border-radius:11px;font-size:13px;color:#355b59;line-height:1.5}.note{color:#667a76;font-size:12px;line-height:1.6}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.divider{height:1px;background:#e1e7e3;margin:16px 0}.pill{border-radius:99px;background:#e0eee8;color:#22685e;padding:5px 10px;font-size:11px;font-weight:800}.reading{background:#f2f6f3;border-radius:9px;padding:12px}.reading strong{font-size:18px;display:block;margin-top:4px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#ecf2ef;color:#3b625c;border-radius:6px;padding:6px 9px;font-size:12px;font-weight:700}.empty{color:#71817b;font-size:14px;padding:16px 0}.entry{border-top:1px solid #e1e6e2;padding:13px 0;display:flex;justify-content:space-between;gap:12px}.entry:first-child{border-top:0}.entry small{color:#7e8c85}.tag{color:#0f6658;font-weight:800}.foot{text-align:center;color:#83918b;font-size:12px;padding:15px}.source{font-size:11px;color:#72847f}.stack{display:grid;gap:14px}@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.shell{margin-top:-35px}.nav button{padding:12px 10px;font-size:12px}.card{padding:16px}header{padding-bottom:65px}header h1{font-size:53px}}
+
+/* Double Vision — dark-wave visual identity */
+:root{--sea:#071419;--sea2:#0b2831;--foam:#c6f0ed;--sand:#09191e;--muted:#a8c2c2;--line:#314b50}
+body{background:linear-gradient(#061319,#0c2128);color:#f0f7f5}
+header{position:relative;overflow:hidden;isolation:isolate;min-height:620px;padding-top:34px;background:#041216}
+header:before{content:"";position:absolute;z-index:-2;inset:0;background:url('https://images.unsplash.com/photo-1760758527526-d4c910d2e4e0?auto=format&fit=crop&w=2200&q=82') center 46% / cover no-repeat}
+header:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(2,11,16,.93) 0%,rgba(2,14,18,.64) 46%,rgba(2,14,18,.12) 100%),linear-gradient(0deg,#071419 1%,transparent 45%);}
+header .brand{color:#daf2f2;letter-spacing:.22em}
+header .logo-card{background:transparent;border:0;box-shadow:none;width:min(340px,76vw);padding:0;margin:0 0 40px}
+header .logo-card img{display:block;max-height:150px;object-fit:contain;object-position:left;filter:drop-shadow(0 5px 14px #031012)}
+header h1{font-size:clamp(52px,9vw,106px);max-width:840px;color:#fff;text-shadow:0 8px 32px #001116}
+header p{font-size:17px;max-width:470px;color:#e1eeeb}
+.ocean{display:none}
+.shell{margin:-37px auto 65px}
+.nav{background:#142b32;border:1px solid #305059;box-shadow:0 12px 42px #00101588}
+.nav button{color:#c5d8da;background:transparent}
+.nav button.active{background:#d9f5ee;color:#0b2226}
+.title{color:white}
+.subtitle,.note,.muted{color:#b4c9c8}
+.card{background:linear-gradient(145deg,#152c33,#102329);border:1px solid #335059;color:#edf6f4;box-shadow:0 12px 35px #00101445}
+.eyebrow{color:#a6c5c4}
+.primary{background:#d9f5ee;color:#082026}
+.secondary{background:#18373f;color:#eff9f8;border-color:#3c6067}
+.field{color:#d7e7e5}
+.field input,.field select,.field textarea{background:#092027;color:#f1f9f6;border-color:#3b5960}
+.field option{background:#0a2229}
+.wavepanel,.reading,.notice{background:#16343c;color:#e6f2ef;border-color:#42676d}
+.condition-section{border-color:#426067}
+.compass button,.chips button,.stars button{background:#13343c;color:#e4f3f0;border:1px solid #42626a}
+.compass button.selected,.chips button.selected,.stars button.selected,#noWind.selected{background:#d9f5ee;color:#092229}
+.pill,.chip{background:#1a4447;color:#c0ece8}
+.divider,.entry{border-color:#385157}
+@media(max-width:700px){header{min-height:540px}header:before{background-position:57% center}header:after{background:linear-gradient(90deg,rgba(0,10,15,.88),rgba(0,10,15,.4)),linear-gradient(0deg,#071419,transparent 52%)}header .logo-card{width:min(255px,74vw);margin-bottom:30px}header h1{font-size:56px}.nav{padding:6px}.nav button{padding:11px}}
+
 </style></head><body>
 <header><div class="logo-card"><img src="assets/double-vision-logo.svg" alt="Original Double Vision logo"></div><div class="brand">DOUBLE VISION &nbsp; / &nbsp; SURF LOG</div><h1>CHASE WAVES.<br><span class="accent">KEEP TRACK.</span></h1><p>A personal log of forecasts, conditions, and the sessions worth remembering.</p><div class="ocean" aria-hidden="true"></div></header>
 <div class="shell"><nav class="nav" aria-label="Main navigation"><button class="active" data-view="home">Home</button><button data-view="new">+ New Log</button><button data-view="spots">Surf Spots</button><button data-view="history">Session History</button><button data-view="year">Your Year</button><button data-view="lab">Conditions Lab</button></nav>
@@ -30,6 +64,7 @@ const waveLabels=["Ankle","Ankle to knee","Knee to hip","Hip to waist","Waist to
 const windConditions=["Glassy","Ripples","Small chop","Choppy","Really choppy"];
 const conditionTags=["Wonky","Heavy Crowd","Strong Current","Clean","Hollow","Closeouts","Long Rides","Fun","Weak","Punchy"];
 const compass=["N","NE","E","SE","S","SW","W","NW"];
+const $=id=>document.getElementById(id), input=id=>$(id).value,number=id=>input(id)===""?null:Number(input(id)), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function renderConditions(){
 $("waveLabel").textContent=waveIndex==null?"Not entered":waveLabels[waveIndex];$("waveSlider").value=waveIndex==null?0:waveIndex+1;
 const y=waveIndex==null?153:153-(waveIndex+1)*12;$("waveBlock").setAttribute("y",y);$("waveBlock").setAttribute("height",164-y);$("waveTop").setAttribute("d","M8 "+y+" Q22 "+(y-5)+" 36 "+y+" T64 "+y+" T92 "+y+" T120 "+y+" T148 "+y+" T176 "+y);
@@ -55,8 +90,7 @@ waveIndex=waveLabels.indexOf(l.observed_wave_label);if(waveIndex<0)waveIndex=nul
 forecast=l.forecast||null;$("saveBtn").textContent="Update surf log";$("cancelEdit").style.display="inline-block";$("forecastStatus").textContent=l.historical_sources?"Historical readings are attached to this session. No actual conditions have been assumed.":"Editing existing session.";renderConditions();
 }
 $("cancelEdit").onclick=()=>{editingId=null;$("saveBtn").textContent="Save surf log";$("cancelEdit").style.display="none";show("history")};
-const $=id=>document.getElementById(id), input=id=>$(id).value,number=id=>input(id)===""?null:Number(input(id)), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const persist=()=>localStorage.setItem(key,JSON.stringify(state));
+const persist=()=>{try{localStorage.setItem(key,JSON.stringify(state));return true}catch(e){return false}};
 const today=new Date();$("date").value=[today.getFullYear(),String(today.getMonth()+1).padStart(2,"0"),String(today.getDate()).padStart(2,"0")].join("-");
 for(let i=1;i<=10;i++)$("rating").add(new Option(i,i));for(let i=1;i<=5;i++){ $("quality").add(new Option(i,i));$("crowd").add(new Option(i,i)); }
 function show(name){document.querySelectorAll(".page").forEach(el=>el.classList.toggle("active",el.id===name));document.querySelectorAll(".nav button").forEach(el=>el.classList.toggle("active",el.dataset.view===name));window.scrollTo({top:0,behavior:"smooth"})}
@@ -99,4 +133,4 @@ $("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({...state,export
 renderConditions();
 render();
 })();
-</script></body></html>
+</script><div style="text-align:center;color:#9db7b7;font-size:11px;padding:12px 20px 24px">Hero photo: <a href="https://unsplash.com/photos/surfer-rides-a-massive-wave-inside-a-barrel-LeVDiZrWAF8" target="_blank" rel="noopener">byronetmedia / Unsplash</a></div></body></html>
