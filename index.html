@@ -328,7 +328,16 @@ main{position:relative;z-index:5;margin-top:-10vh;padding:0 0 70px}
       if(actual.waveIndex<0)actual.waveIndex=null;
       return {id:log.id||'migrated-log-'+i,spotId:log.spotId||matching?.id||'sombrio-1sts',when:log.when||((log.date||'2026-11-01')+'T'+(log.time||'12:00')),manual,forecast:log.forecast||{},actual,notes:log.notes||'',historical:!!log.historical};
     });
-    defaultSpots.forEach(spot => { if (!base.spots.some(s => s.id === spot.id || s.name === spot.name)) base.spots.push({...spot}); });
+    defaultSpots.forEach(spot => {
+      const same = base.spots.find(s => s.name === spot.name || s.id === spot.id);
+      if(!same){ base.spots.push({...spot}); }
+      else if(same.id!==spot.id){
+        const oldId=same.id; same.id=spot.id;
+        if(!Number.isFinite(same.lat))same.lat=spot.lat;
+        if(!Number.isFinite(same.lon))same.lon=spot.lon;
+        base.logs.forEach(log=>{if(log.spotId===oldId)log.spotId=spot.id;});
+      }
+    });
     seededLogs.forEach(log => { if (!base.logs.some(l => l.id === log.id || (l.spotId === log.spotId && l.when === log.when))) base.logs.push({...log}); });
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(base)); } catch (e) { }
     return base;
