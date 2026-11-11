@@ -17,8 +17,15 @@
 (function(){
 "use strict";
 const key="doubleVisionSurfLogV1";
-const defaults=[{name:"Sombrio",lat:48.414,lon:-124.303},{name:"Jordan River",lat:48.422,lon:-124.044},{name:"China Beach",lat:48.436,lon:-124.097}];
-let state;try{state=JSON.parse(localStorage.getItem(key))}catch(e){}if(!state||!Array.isArray(state.spots)||!Array.isArray(state.logs))state={spots:defaults,logs:[]};let forecast=null;
+const defaults=[{name:"Sombrio - 1sts",lat:48.414,lon:-124.303},{name:"Sombrio - 2nds",lat:48.414,lon:-124.303},{name:"Sombrio - Chickens",lat:48.414,lon:-124.303},{name:"China - Ekans Reef",lat:null,lon:null},{name:"Jordan River",lat:48.422,lon:-124.044},{name:"China Beach",lat:48.436,lon:-124.097}];
+const historical=[
+{id:"history-20261102-2nds",spot:"Sombrio - 2nds",date:"2026-11-02",time:"12:00",rating:null,quality:null,crowd:null,observed_height:null,observed_wave_label:null,wind_condition:null,wind_direction:null,no_wind:false,stars:null,tags:[],notes:"From Nov 2 screenshots: Surfline noon forecast; tide high 08:07 at 2.6m, low 14:15 at 1.9m; MarineWeather predicted ebb begins 12:45. Neah Bay buoy screenshot observed 05:20 PST, NOT noon.",surfline:{primary_height:1.49352,primary_period:16,primary_direction:270,secondary_height:1.00584,secondary_period:9,secondary_direction:253,third_height:0.27432,third_period:13,third_direction:221,tide_height:null,power_kj:null},historical_sources:{surfline_time:"Nov 2 noon",tide_high:"08:07 / 2.6m",tide_low:"14:15 / 1.9m",current_transition:"12:45 / ebb begins",buoy_time:"05:20 PST",buoy_wave_height_ft:6.6,buoy_period_s:17,buoy_wind_kn:21.4,buoy_gust_kn:27.2},forecast:null},
+{id:"history-20261101-1sts",spot:"Sombrio - 1sts",date:"2026-11-01",time:"16:00",rating:null,quality:null,crowd:null,observed_height:null,observed_wave_label:null,wind_condition:null,wind_direction:null,no_wind:false,stars:null,tags:[],notes:"Historic session. No Nov 1 forecast readings or actual wave observations provided.",surfline:{},forecast:null}];
+let state;try{state=JSON.parse(localStorage.getItem(key))}catch(e){}if(!state||!Array.isArray(state.spots)||!Array.isArray(state.logs))state={spots:[],logs:[]};
+defaults.forEach(s=>{if(!state.spots.some(x=>x.name===s.name))state.spots.push({...s})});
+historical.forEach(l=>{if(!state.logs.some(x=>x.id===l.id||(x.spot===l.spot&&x.date===l.date&&x.time===l.time)))state.logs.push({...l})});
+try{localStorage.setItem(key,JSON.stringify(state))}catch(e){}
+let forecast=null,editingId=null;
 const $=id=>document.getElementById(id), input=id=>$(id).value,number=id=>input(id)===""?null:Number(input(id)), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const persist=()=>localStorage.setItem(key,JSON.stringify(state));
 const today=new Date();$("date").value=[today.getFullYear(),String(today.getMonth()+1).padStart(2,"0"),String(today.getDate()).padStart(2,"0")].join("-");
@@ -32,7 +39,7 @@ const items=[...state.logs].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.t
 const entry=x=>'<div class="entry"><div><strong>'+esc(x.spot)+'</strong><br><small>'+esc(x.date)+' · '+esc(x.time)+'</small></div><span class="tag">'+(x.rating==null?"Not rated":x.rating+"/10")+'</span></div>';
 $("recent").innerHTML=items.length?items.slice(0,4).map(entry).join(""):'Your log is empty. Go get some waves.';
 $("historyList").innerHTML=items.length?items.map(entry).join(""):'No sessions logged yet.';
-$("spotsList").innerHTML=state.spots.map((s,i)=>'<div class="entry"><div><strong>'+esc(s.name)+'</strong><br><small>'+s.lat.toFixed(3)+', '+s.lon.toFixed(3)+' · '+state.logs.filter(x=>x.spot===s.name).length+' sessions</small></div><button class="secondary small" data-del="'+i+'">Remove</button></div>').join("");
+$("spotsList").innerHTML=state.spots.map((s,i)=>'<div class="entry"><div><strong>'+esc(s.name)+'</strong><br><small>'+(s.lat==null?'Coordinates needed':s.lat.toFixed(3)+', '+s.lon.toFixed(3))+' · '+state.logs.filter(x=>x.spot===s.name).length+' sessions</small></div><button class="secondary small" data-del="'+i+'">Remove</button></div>').join("");
 document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;if(confirm("Remove this surf spot? Existing logs will stay.")){state.spots.splice(i,1);persist();forecast=null;render()}});
 const year=String(today.getFullYear()),yl=state.logs.filter(x=>x.date.startsWith(year)),yr=yl.filter(x=>x.rating!==null);$("yearCount").textContent=yl.length;$("yearAvg").textContent=yr.length?(yr.reduce((t,x)=>t+x.rating,0)/yr.length).toFixed(1)+"/10":"—";
 const groups={};yl.forEach(x=>groups[x.spot]=(groups[x.spot]||0)+1);$("yearSpot").textContent=Object.entries(groups).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—";$("highlights").textContent=yr.length?"Best session: "+yr.slice().sort((a,b)=>b.rating-a.rating)[0].spot+" · "+yr.slice().sort((a,b)=>b.rating-a.rating)[0].rating+"/10":"Add some rated sessions to see highlights.";
@@ -43,7 +50,7 @@ $("addSpot").onclick=()=>{const name=input("newSpotName").trim(),lat=number("new
 function fmt(x,unit=""){return x==null?"—":Number(x).toFixed(1)+unit}
 function nearest(data,at){if(!data?.hourly?.time)return {};const times=data.hourly.time;let best=-1,dist=Infinity;times.forEach((v,i)=>{const n=Math.abs(new Date(v).getTime()-at);if(n<dist){dist=n;best=i}});if(best<0||dist>90*60000)return {};const out={};Object.entries(data.hourly).forEach(([k,v])=>{if(k!=="time"&&Array.isArray(v))out[k]=v[best]});out.sample_time=times[best];return out}
 $("spot").onchange=()=>{forecast=null;$("readings").textContent="Spot changed — fetch a new forecast."};$("date").onchange=()=>{forecast=null;$("readings").textContent="Time changed — fetch a new forecast."};$("time").onchange=()=>{forecast=null;$("readings").textContent="Time changed — fetch a new forecast."};
-$("forecastBtn").onclick=async()=>{const s=state.spots[Number(input("spot"))],date=input("date"),time=input("time");if(!s||!date||!time){$("forecastStatus").textContent="Select a surf spot, date and time first.";return}const at=new Date(date+"T"+time+":00").getTime();if(!Number.isFinite(at))return;
+$("forecastBtn").onclick=async()=>{const s=state.spots[Number(input("spot"))],date=input("date"),time=input("time");if(!s||!date||!time){$("forecastStatus").textContent="Select a surf spot, date and time first.";return}if(s.lat==null||s.lon==null){$("forecastStatus").textContent="This spot needs coordinates before model forecasts can be fetched.";return}const at=new Date(date+"T"+time+":00").getTime();if(!Number.isFinite(at))return;
 $("forecastStatus").textContent="Fetching marine and wind forecasts…";$("readings").textContent="Loading…";forecast=null;
 const lat=s.lat,lon=s.lon,mvars="wave_height,wave_period,swell_wave_height,swell_wave_period,swell_wave_direction,secondary_swell_wave_height,secondary_swell_wave_period,secondary_swell_wave_direction,sea_level_height_msl,ocean_current_velocity,ocean_current_direction",wvars="wind_speed_10m,wind_direction_10m,wind_gusts_10m";
 const base="&latitude="+lat+"&longitude="+lon+"&timezone=America%2FVancouver&start_date="+date+"&end_date="+date;
